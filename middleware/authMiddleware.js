@@ -1,31 +1,31 @@
 import jwt from "jsonwebtoken";
 import {verifyToken} from "../utils/token.js"
 import { asyncHandler } from "./devWare.js"
-import Users from "../models/userSchema.js";
 
-const isAdmin = (permissions) => {
-  return (req, res, next) => {
-    const userRole = req.body.role
 
-    if (permissions.includes(userRole)) {
+
+const isAdmin = (req, res, next) => {
+    const { user } = req.user;
+    if (user && (user.role === 'admin')) {
       next()
-    }  
-    return res.json({
-        message: "Access denied; Admin only",
-        userRole: userRole
+    } else {
+      res.status(403).json({
+        message: "Access denied, Admin only!",
+        role: user.role
       })
     }
 }
 
 
-
 const isOrganizer = (req, res, next) => {
-    if (req.user && (req.user.role === 'organizer' || req.user.role === 'admin')) {
-        next()
+  const {user} = req.user
+    if (user && (user.role === 'organizer' || user.role === 'admin')) {
+      next()
     } else {
         res.status(403).json({
-            message: 'Access denied; Organizer only'
-        })
+        message: 'Access denied; Organizer only',
+        role: user.role
+      })
     }
 }
 
@@ -40,18 +40,9 @@ const protect = asyncHandler (async (req, res, next) => {
   
     const decodeToken = await verifyToken(token)
     req.user = decodeToken
-
-    // const decoded = jwt.verify(token, process.env.SECRET_KEY)
-    // console.log(token)
-    // // const checkDB = await Users.findOne({ email: decoded.token.email })
-
-    // // if (!checkDB) {
-    // //   return res.status(404).json({
-    // //     message: "User not found1",
-    // //   })
-    // // }
-
     next()
+
+    console.log(decodeToken.user.id)
   })
 
 

@@ -58,12 +58,6 @@ const login = asyncHandler(async (req, res) => {
     }
     const token = await generateToken(checkUser)
 
-    // const token = jwt.sign(
-    //   { id: checkUser.uniqueId, role: checkUser.role },
-    //   process.env.SECRET_KEY,
-    //   { expiresIn: "30m" }
-    // )
-    
     res.cookie("jwt-login", token, {
       maxAge: maxAge * 10000
     })
@@ -81,11 +75,19 @@ const usersList = asyncHandler (async (req, res) => {
         message: "No user on the database!"
       })
     } 
+    const response = users.map((user) => ({
+      id: user.uniqueId,
+      firstname: user.firstName,
+      lastname: user.lastName,
+      email: user.email,
+      role: user.role,
+      date: user.createdAt
+
+    }))
     return res.status(200).json({
       message: "Success!",
-      user: req.user.role,
       count: users.length,
-      users: users,
+      users: response
     })
 })
 

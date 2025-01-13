@@ -9,7 +9,8 @@ router.post("/sign_up", validateSignUp, authController.signUp)
 router.post("/login", validateLogin, authController.login)
 
 //protected route
-router.get("/users", protect, isAdmin(['admin']), authController.usersList)
+router.get("/users", protect, isAdmin, authController.usersList)
+
 
 
 export default router

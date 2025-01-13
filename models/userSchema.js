@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     enum: [ 'user', 'organizer', 'admin' ],
     default: 'user'
   },
-  uniqueId: { type: String, default: null },
+  uniqueId: { type: String, unique: true, default: null },
   createdAt: { type: Date, default: Date.now },
 })
 

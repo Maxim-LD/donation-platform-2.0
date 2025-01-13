@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import connectToDb from './utils/db.js'
 import authRoute from './routes/authRoute.js'
+import causeRoute from './routes/causeRoute.js'
 import {asyncHandler, errorHandler} from './middleware/devWare.js'
 
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api", authRoute)
+app.use("/api", causeRoute)
 
 app.use(errorHandler)
 
