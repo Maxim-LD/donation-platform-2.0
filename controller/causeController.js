@@ -34,7 +34,6 @@ const createCause = asyncHandler( async (req, res) => {
     })
 })
 const updateCause = asyncHandler( async (req, res) => {
-
 })
 const listCauses = asyncHandler( async (req, res)=> {
     const causes = await Causes.find().sort({ createdAt: -1 })

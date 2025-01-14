@@ -67,7 +67,6 @@ const login = asyncHandler(async (req, res) => {
       role: checkUser.role
     })
 })
-
 const usersList = asyncHandler (async (req, res) => {
     const users = await Users.find()
     if (users.length === 0 ) {
