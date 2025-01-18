@@ -1,5 +1,5 @@
 import validator from 'validator' 
-import { asyncHandler } from './devWare.js'
+import { asyncHandler } from './errorMiddleware.js'
 
 
 const validPassword = (password) => {
@@ -16,6 +16,7 @@ const validPassword = (password) => {
 
 const validateSignUp = asyncHandler (async (req, res, next) => {
     const { firstName, lastName, email, password, role } = req.body
+
     const errors = []
 
         if (!( firstName && lastName )) {

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import {verifyToken} from "../utils/token.js"
-import { asyncHandler } from "./devWare.js"
+import { asyncHandler } from "./errorMiddleware.js"
 
 
 

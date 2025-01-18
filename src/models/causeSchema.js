@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import Users from './userSchema.js'
 
 
-
 const causeSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },

@@ -1,4 +1,4 @@
-import { asyncHandler } from "../middleware/devWare.js"
+import { asyncHandler } from "../middleware/errorMiddleware.js"
 import Causes from "../models/causeSchema.js"
 import { v4 as uuidv4 } from "uuid"
 
