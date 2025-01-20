@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post("/sign_up", validateSignUp, authController.signUp)
 router.post("/login", validateLogin, authController.login)
+router.post("/logIn", validateLogin, authController.login)
 
 //protected route
 router.get("/users", protect, isAdmin, authController.usersList)
