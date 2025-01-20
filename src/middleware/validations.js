@@ -57,9 +57,7 @@ const validateLogin = asyncHandler (async (req, res, next) => {
             errors.push("Enter your password!")
         }
         if (errors.length > 0 ){
-            return res.status(400).json({
-                message: errors
-            })
+            return res.status(400).json({ message: errors })
         }
         next()
 })
