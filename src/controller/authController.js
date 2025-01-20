@@ -22,6 +22,8 @@ const signUp = asyncHandler(async (req, res) => {
   if (checkUser) {
     return res.status(400).json({ message: "User already exists!" })
   }
+
+  //-------Method 1: Using bcrypt to hash password and save to database + token generation---------
   //        const hashedPassword = await bcrypt.hash(password, 12)
 
   //        const newUser = new Users({ //new instance of Users model is created
@@ -48,6 +50,7 @@ const signUp = asyncHandler(async (req, res) => {
   //          })
   //  })
 
+  //Users.register(new Users({}),password,callback)
   Users.register(new Users({
       email,
       firstName,
@@ -69,7 +72,9 @@ const signUp = asyncHandler(async (req, res) => {
     }
   )
 })
+
 const login = asyncHandler(async (req, res) => {
+  //-------Method 1: Using bcrypt to compare password and email, plus token generation/cookie---------
   const { email, password } = req.body
     const checkUser = await Users.findOne({ email })
     if (!checkUser) {
@@ -89,7 +94,33 @@ const login = asyncHandler(async (req, res) => {
       token: token,
       role: checkUser.role
     })
+
+    
 })
+
+const logIn = asyncHandler(async (req, res) => {
+//----------------Method 2: Using passport-local-mongoose to authenticate user------------------- 
+    const { email, password } = req.body
+    
+    passport.authenticate("local", (err, user, info) => {
+      if(err) {
+        return res.status(500).json({ message: err.message })
+      }
+      if (!user) {
+        return res.status(401).json({ message: info.message || "Invalid credentials!" })
+      }
+      req.login(user, function(err) {
+        if (err) {
+          return res.status(500).json({ message: err.message })
+        }
+        return res.status(200).json({ 
+          message: "Logged in successfully!", 
+          user: user 
+        })
+      })
+    })
+  })
+
 const usersList = asyncHandler (async (req, res) => {
     const users = await Users.find()
     if (users.length === 0 ) {
@@ -118,4 +149,5 @@ export default {
     signUp,
     login,
     usersList,
+    logIn
   }
